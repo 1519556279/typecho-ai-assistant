@@ -1,0 +1,340 @@
+/* StellarAI —— AI 助手独立样式（不依赖任何美化插件） */
+:root {
+    --sai-bg: #f5f6fb;
+    --sai-bg-soft: #eceef7;
+    --sai-card: #ffffff;
+    --sai-text: #1c2030;
+    --sai-text-2: #5b6272;
+    --sai-text-3: #7a8194;
+    --sai-line: #e5e8f2;
+    --sai-accent: #5b5bd6;
+    --sai-accent-2: #8b5cf6;
+    --sai-grad: linear-gradient(135deg, #5b5bd6, #8b5cf6);
+    --sai-radius: 14px;
+    --sai-shadow: 0 6px 20px rgba(20, 24, 46, .1), 0 16px 44px rgba(20, 24, 46, .09);
+}
+[data-theme="dark"] {
+    --sai-bg: #0e1015;
+    --sai-bg-soft: #141720;
+    --sai-card: #171b26;
+    --sai-text: #e8eaf2;
+    --sai-text-2: #a6adc0;
+    --sai-text-3: #7e86a0;
+    --sai-line: #262b3a;
+    --sai-accent: #8b8bf0;
+    --sai-accent-2: #a78bfa;
+}
+
+/* ================= AI 大屏页面 ================= */
+body.sai-ai-page {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background:
+        radial-gradient(1200px 500px at 15% -10%, rgba(91, 91, 214, .12), transparent 60%),
+        radial-gradient(1000px 460px at 90% 110%, rgba(139, 92, 246, .12), transparent 60%),
+        var(--sai-bg);
+    color: var(--sai-text);
+}
+[data-theme="dark"] body.sai-ai-page {
+    background:
+        radial-gradient(1200px 500px at 15% -10%, rgba(91, 91, 214, .18), transparent 60%),
+        radial-gradient(1000px 460px at 90% 110%, rgba(139, 92, 246, .14), transparent 60%),
+        var(--sai-bg);
+}
+.sai-shell { display: flex; flex-direction: column; height: 100vh; max-width: 920px; margin: 0 auto; padding: 0 18px; }
+
+/* 顶栏 */
+.sai-topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    padding: 14px 2px;
+    position: sticky; top: 0; z-index: 10;
+}
+.sai-topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.sai-logo {
+    width: 34px; height: 34px; flex: none; display: grid; place-items: center;
+    border-radius: 10px; background: var(--sai-grad); color: #fff; font-size: 16px;
+    box-shadow: 0 4px 14px rgba(91, 91, 214, .35);
+}
+.sai-topbar h1 { font-size: 18px; font-weight: 800; margin: 0; letter-spacing: -.2px; white-space: nowrap; }
+.sai-topbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* 状态指示（测试连接） */
+.sai-ai-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--sai-text-3); padding: 4px 10px;
+    background: var(--sai-bg-soft); border: 1px solid var(--sai-line); border-radius: 999px;
+    white-space: nowrap;
+}
+.sai-ai-status::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; flex: none;
+    background: #c9cedd;
+}
+.sai-ai-status.sai-st-ok::before { background: #34c759; box-shadow: 0 0 0 3px rgba(52, 199, 89, .18); }
+.sai-ai-status.sai-st-err::before { background: #ff3b30; box-shadow: 0 0 0 3px rgba(255, 59, 48, .15); }
+.sai-ai-status.sai-st-busy::before { background: #ff9f0a; box-shadow: 0 0 0 3px rgba(255, 159, 10, .18); animation: sa-blink 1s steps(1) infinite; }
+
+/* 聊天区 */
+.sai-chat-wrap { flex: 1; overflow-y: auto; padding: 6px 2px 16px; scroll-behavior: smooth; }
+.sai-chat { display: flex; flex-direction: column; gap: 14px; }
+
+/* 欢迎引导卡片（空状态） */
+.sai-welcome {
+    max-width: 560px; margin: 40px auto 20px; text-align: center;
+    padding: 34px 30px 28px;
+    background: var(--sai-card); border: 1px solid var(--sai-line); border-radius: 20px;
+    box-shadow: var(--sai-shadow);
+    animation: sa-item-in .4s ease both;
+    overflow-y: auto;
+}
+.sai-welcome-logo {
+    width: 52px; height: 52px; margin: 0 auto 14px; display: grid; place-items: center;
+    border-radius: 16px; background: var(--sai-grad); color: #fff; font-size: 24px;
+    box-shadow: 0 8px 24px rgba(91, 91, 214, .35);
+}
+.sai-welcome h2 { margin: 0 0 8px; font-size: 20px; font-weight: 800; letter-spacing: -.3px; }
+.sai-welcome-desc { margin: 0 0 20px; font-size: 13.5px; color: var(--sai-text-2); line-height: 1.7; }
+.sai-welcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; }
+.sai-welcome-item {
+    display: flex; flex-direction: column; gap: 3px;
+    padding: 12px 14px; border: 1px solid var(--sai-line); border-radius: 12px;
+    background: var(--sai-bg-soft); color: var(--sai-text); cursor: pointer; text-align: left;
+    font-family: inherit; transition: all .2s;
+}
+.sai-welcome-item b { font-size: 13.5px; }
+.sai-welcome-item span { font-size: 12px; color: var(--sai-text-3); line-height: 1.5; }
+.sai-welcome-item:hover { border-color: var(--sai-accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(91, 91, 214, .12); }
+.sai-welcome-tip { margin: 18px 0 0; font-size: 12px; color: var(--sai-text-3); line-height: 1.7; }
+@media (max-width: 560px) {
+    .sai-welcome-grid { grid-template-columns: 1fr; }
+    .sai-welcome { margin-top: 24px; padding: 24px 18px 20px; }
+}
+.sai-chat-msg { display: flex; gap: 10px; align-items: flex-start; animation: sa-item-in .28s ease both; }
+.sai-chat-msg.me { justify-content: flex-end; }
+.sai-chat-avatar {
+    width: 30px; height: 30px; flex: none; display: grid; place-items: center;
+    border-radius: 50%; background: var(--sai-grad); color: #fff; font-size: 13px;
+    box-shadow: 0 3px 10px rgba(91, 91, 214, .3); margin-top: 2px;
+}
+.sai-chat-bubble {
+    max-width: 80%; padding: 11px 15px; border-radius: 16px;
+    background: var(--sai-card); border: 1px solid var(--sai-line);
+    font-size: 14px; line-height: 1.75; word-break: break-word; min-width: 0;
+    box-shadow: 0 2px 10px rgba(20, 24, 46, .05);
+}
+.sai-chat-bubble.me {
+    background: var(--sai-grad); color: #fff; border: none;
+    border-bottom-right-radius: 5px; box-shadow: 0 4px 14px rgba(91, 91, 214, .3);
+}
+.sai-chat-msg:not(.me) .sai-chat-bubble { border-bottom-left-radius: 5px; }
+.sai-chat-bubble.me a { color: #fff; }
+
+/* Markdown 渲染 */
+.sai-md h1, .sai-md h2, .sai-md h3 { margin: 10px 0 6px; line-height: 1.4; }
+.sai-md h1 { font-size: 17px; } .sai-md h2 { font-size: 15.5px; } .sai-md h3 { font-size: 14.5px; }
+.sai-md strong { font-weight: 700; }
+.sai-md ul, .sai-md ol { margin: 6px 0; padding-left: 20px; }
+.sai-md code { background: rgba(127, 127, 160, .14); border-radius: 5px; padding: 1px 6px; font-family: ui-monospace, Consolas, monospace; font-size: .92em; }
+.sai-md pre { background: #14161f; color: #e2e8f0; border-radius: 8px; padding: 10px 12px; overflow-x: auto; margin: 8px 0; }
+.sai-md pre code { background: none; padding: 0; color: inherit; }
+.sai-md blockquote { margin: 8px 0; padding: 2px 12px; border-left: 3px solid var(--sai-accent); color: var(--sai-text-2); }
+.sai-md hr { border: none; border-top: 1px solid var(--sai-line); margin: 10px 0; }
+.sai-md a { color: var(--sai-accent); }
+
+/* 等待三点动画 */
+.sai-dots { display: inline-flex; gap: 4px; align-items: center; }
+.sai-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--sai-accent); animation: sa-dot 1.2s ease-in-out infinite; }
+.sai-dots span:nth-child(2) { animation-delay: .15s; }
+.sai-dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes sa-dot { 0%, 60%, 100% { opacity: .3; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+.sai-typing::after { content: '▍'; margin-left: 2px; animation: sa-blink 1s steps(1) infinite; color: var(--sai-accent); }
+@keyframes sa-blink { 50% { opacity: 0; } }
+@keyframes sa-item-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* 流式输出：打字机期间纯文本自动换行 */
+.sa-stream { white-space: pre-wrap; word-break: break-word; }
+
+/* 命令执行结果（AI 对话内） */
+.sai-cmd-result { margin-top: 10px; font-size: 12.5px; }
+.sai-cmd-wait { color: var(--sai-text-3); }
+.sai-cmd-err { color: #dc2626; font-size: 12.5px; }
+.sai-cmd-note { color: var(--sai-text-2); font-size: 12.5px; }
+.sai-cmd-item { padding: 8px 10px; border-radius: 8px; background: var(--sai-bg-soft); margin-bottom: 6px; font-size: 12.5px; }
+.sai-cmd-item.err { background: rgba(229, 72, 77, .1); }
+.sai-cmd-list { margin: 4px 0 0; padding-left: 16px; }
+.sai-cmd-st { font-size: 11px; opacity: .7; }
+.sai-cmd-content { margin-top: 4px; color: var(--sai-text-2); }
+.sai-copy-btn { align-self: center; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--sai-line); background: var(--sai-bg-soft); color: var(--sai-text-2); font-size: 12px; cursor: pointer; margin-top: 6px; }
+.sai-copy-btn:hover { color: var(--sai-accent); border-color: var(--sai-accent); }
+
+/* 底部输入区 */
+.sai-composer {
+    padding: 12px 2px 18px;
+    background: linear-gradient(to top, var(--sai-bg) 70%, transparent);
+}
+.sai-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.sai-cmd-chip {
+    padding: 5px 12px; border-radius: 999px; border: 1px solid var(--sai-line);
+    background: var(--sai-card); color: var(--sai-text-2); font-size: 12px; cursor: pointer; transition: all .2s;
+}
+.sai-cmd-chip:hover { border-color: var(--sai-accent); color: var(--sai-accent); transform: translateY(-1px); }
+.sai-input-row { display: flex; gap: 10px; align-items: flex-end; }
+.sai-input-row textarea {
+    flex: 1; min-height: 48px; max-height: 160px; resize: none; padding: 12px 14px;
+    border: 1px solid var(--sai-line); border-radius: 14px;
+    background: var(--sai-card); color: var(--sai-text); font-size: 14px; font-family: inherit;
+    line-height: 1.6; box-shadow: 0 2px 10px rgba(20, 24, 46, .05);
+    transition: border-color .2s, box-shadow .2s;
+}
+.sai-input-row textarea:focus { outline: none; border-color: var(--sai-accent); box-shadow: 0 0 0 3px rgba(91, 91, 214, .15); }
+.sai-input-row .sai-btn-primary { height: 48px; padding: 0 24px; border-radius: 14px; font-size: 14px; }
+.sai-footnote { margin: 10px 0 0; text-align: center; font-size: 11.5px; color: var(--sai-text-3); }
+
+/* ================= 按钮（后台通用） ================= */
+.sai-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 8px 18px; border-radius: 10px; border: 1px solid var(--sai-line);
+    background: var(--sai-card); color: var(--sai-text); font-size: 14px; cursor: pointer; transition: all .18s;
+    text-decoration: none;
+}
+.sai-btn:hover { border-color: var(--sai-accent); color: var(--sai-accent); }
+.sai-btn-primary { background: var(--sai-grad); color: #fff; border: none; font-weight: 600; }
+.sai-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(91, 91, 214, .35); color: #fff; }
+.sai-btn-primary:active { transform: scale(.97); }
+.sai-btn-s { padding: 5px 14px; font-size: 12.5px; }
+.sai-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+/* ================= 浮动按钮（后台右下角） ================= */
+#sai-ai-fab {
+    position: fixed; right: 22px; bottom: 24px; z-index: 9990;
+    width: 52px; height: 52px; border-radius: 50%; border: none; cursor: pointer;
+    background: var(--sai-grad); color: #fff;
+    display: grid; place-items: center;
+    box-shadow: 0 10px 28px rgba(91, 91, 214, .4);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+#sai-ai-fab:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 14px 34px rgba(91, 91, 214, .5); }
+#sai-ai-fab:active { transform: scale(.95); }
+
+/* ================= 写文章页润色条 ================= */
+.sai-polish-bar {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 10px; padding: 8px 10px;
+    background: var(--sai-bg-soft); border: 1px solid var(--sai-line); border-radius: 10px;
+}
+.sai-polish-hint { font-size: 12px; color: var(--sai-text-3); }
+
+/* ================= toast ================= */
+.sai-toast {
+    position: fixed; right: 24px; bottom: 24px; z-index: 10000;
+    background: #171b26; color: #fff; border-radius: 10px; padding: 10px 16px;
+    font-size: 13px; box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+}
+.sai-toast ul { margin: 0; padding: 0; list-style: none; }
+
+/* ================= 模型检测 chips（插件设置页） ================= */
+.sai-model-chip {
+    display: inline-flex; align-items: center; margin: 4px 6px 0 0; padding: 4px 12px;
+    border: 1px solid var(--sai-line); border-radius: 999px; background: var(--sai-bg-soft);
+    color: var(--sai-text); font-size: 12px; cursor: pointer; transition: all .2s;
+}
+.sai-model-chip:hover { border-color: var(--sai-accent); color: var(--sai-accent); transform: translateY(-1px); }
+.sai-model-chip.sai-active { background: var(--sai-grad); border-color: transparent; color: #fff; }
+
+/* ================= 评论审核 / 批量生成 管理页 ================= */
+.sai-page { max-width: 960px; margin: 24px auto; padding: 0 16px; font-size: 14px; }
+.sai-page h1 { font-size: 20px; margin: 0 0 16px; }
+.sai-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.sai-table { width: 100%; border-collapse: collapse; background: var(--sai-card, #fff); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, .06); }
+.sai-table th, .sai-table td { padding: 9px 12px; border-bottom: 1px solid var(--sai-line, #e8e8f0); text-align: left; vertical-align: top; }
+.sai-table th { background: var(--sai-bg-soft, #f4f4fa); font-weight: 600; white-space: nowrap; }
+.sai-tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; white-space: nowrap; }
+.sai-tag-pending { background: #fff7e6; color: #b25e00; }
+.sai-tag-approved { background: #e8f7ee; color: #1a7f37; }
+.sai-tag-rejected, .sai-tag-failed { background: #fdecea; color: #b3261e; }
+.sai-tag-muted { background: #f0f0f5; color: #666; }
+.sai-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.sai-progress { height: 8px; border-radius: 4px; background: var(--sai-line, #e8e8f0); overflow: hidden; margin-top: 8px; }
+.sai-progress > i { display: block; height: 100%; width: 0; background: var(--sai-accent, #5b5bd6); transition: width .3s; }
+.sai-muted { color: var(--sai-text-3, #888); font-size: 12px; }
+.sai-empty { padding: 30px; text-align: center; color: var(--sai-text-3, #888); }
+
+/* 移动端适配 */
+@media (max-width: 640px) {
+    .sai-shell { padding: 0 12px; }
+    .sai-chat-bubble { max-width: 88%; }
+    .sai-topbar { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px 2px; }
+    .sai-topbar-left { justify-content: space-between; }
+    .sai-topbar-right { flex-wrap: wrap; gap: 6px; }
+    .sai-topbar-right .sai-btn { flex: 1 1 auto; min-width: 0; padding: 6px 8px; font-size: 12px; white-space: nowrap; }
+    .sai-input-row .sai-btn-primary { padding: 0 18px; }
+}
+
+/* ================= 停止生成按钮 ================= */
+.sai-stop-btn {
+    align-self: flex-start; margin: 6px 0 0 40px;
+    background: rgba(255, 59, 48, .1) !important; color: #ff3b30 !important;
+    border-color: rgba(255, 59, 48, .35) !important;
+}
+.sai-stop-btn:hover { background: rgba(255, 59, 48, .18) !important; color: #ff3b30 !important; transform: none !important; }
+
+/* ================= AI 大屏左右引导栏（fixed 固定在视口两侧，仅宽屏显示） ================= */
+.sai-body { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.sai-guide {
+    position: fixed; top: 70px; bottom: 24px; width: 200px; z-index: 6;
+    overflow-y: auto; padding: 10px 4px 20px;
+    display: none;
+}
+#sai-guide-left { left: calc(50% - 700px); }
+#sai-guide-right { right: calc(50% - 700px); }
+@media (min-width: 1400px) { .sai-guide { display: block; } }
+/* 开关：固定宽度 + 显示中高亮 */
+#sai-guide-toggle { min-width: 84px; text-align: center; }
+#sai-guide-toggle.sai-guide-on { border-color: var(--sai-accent); color: var(--sai-accent); background: rgba(91, 91, 214, .08); }
+.sai-guide-inner {
+    background: var(--sai-card); border: 1px solid var(--sai-line); border-radius: 16px;
+    padding: 16px 14px; box-shadow: 0 2px 10px rgba(20, 24, 46, .05);
+}
+.sai-guide h3 { margin: 0 0 10px; font-size: 12.5px; font-weight: 700; color: var(--sai-accent); }
+.sai-guide ul { margin: 0; padding: 0; list-style: none; }
+.sai-guide li {
+    display: flex; gap: 8px; align-items: flex-start;
+    font-size: 12.5px; color: var(--sai-text-2); line-height: 1.6;
+    padding: 6px 0; border-bottom: 1px dashed var(--sai-line);
+}
+.sai-guide li:last-child { border-bottom: none; }
+.sai-guide-close {
+    position: absolute; top: 6px; right: 2px; z-index: 2;
+    width: 24px; height: 24px; border: none; border-radius: 8px; cursor: pointer;
+    background: var(--sai-bg-soft); color: var(--sai-text-3); font-size: 14px; line-height: 1;
+    transition: all .2s;
+}
+.sai-guide-close:hover { background: var(--sai-grad); color: #fff; }
+@media (max-width: 1100px) { .sai-guide { display: none; } }
+
+/* ================= 顶栏按钮增强 ================= */
+.sai-topbar-right .sai-btn { background: var(--sai-card); border: 1px solid var(--sai-line); color: var(--sai-text); }
+.sai-topbar-right .sai-btn:hover { background: var(--sai-grad); color: #fff; border-color: transparent; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(91, 91, 214, .3); }
+.sai-btn-main { background: var(--sai-grad); color: #fff; border: none; font-weight: 600; }
+.sai-btn-main:hover { color: #fff; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(91, 91, 214, .35); }
+/* 主按钮不被其他规则覆盖（修复顶栏内变灰） */
+.sai-topbar-right .sai-btn.sai-btn-main,
+.sai-bar .sai-btn.sai-btn-main {
+    background: var(--sai-grad); color: #fff; border: none;
+}
+.sai-topbar-right .sai-btn.sai-btn-main:hover,
+.sai-bar .sai-btn.sai-btn-main:hover { color: #fff; }
+
+/* ================= 管理页介绍卡 ================= */
+.sai-intro {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: linear-gradient(135deg, rgba(91, 91, 214, .08), rgba(139, 92, 246, .08));
+    border: 1px solid var(--sai-line); border-radius: 14px;
+    padding: 14px 18px; margin-bottom: 16px; font-size: 13px; line-height: 1.8;
+    color: var(--sai-text-2);
+}
+.sai-intro b { color: var(--sai-text); }
+.sai-intro code {
+    background: rgba(127, 127, 160, .14); border-radius: 5px; padding: 1px 6px;
+    font-family: ui-monospace, Consolas, monospace; font-size: .92em; color: var(--sai-text);
+}
+.sai-table-wrap { overflow-x: auto; border-radius: 10px; }
+.sai-table-wrap .sai-table { min-width: 640px; }
